@@ -66,4 +66,10 @@ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/v
 sudo apt update
 sudo apt install code --assume-yes --force-yes
 
+echo "--- Adicionando interface grafica ---"
+sudo apt-get update
+sudo apt-get install xorg gnome-core gnome-system-tools gnome-app-install -y
+sudo apt-get install xfce4 -y
+sudo startxfce4&
+
 echo "[OK] --- Ambiente de desenvolvimento concluido ---"

@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "~", "/vagrant", owner: "vagrant", group: "vagrant"
 #Defindo o virtualbox como provider da maquiona
   config.vm.provider "virtualbox" do |machine|
+    machine.gui = true
 #Definindo a quantidade de memoria da maquina virtual
     machine.memory = 1024
 #Definindo nome da maquina virtual
