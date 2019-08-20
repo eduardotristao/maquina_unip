@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "---- Iniciando instalacao do ambiente de Desenvolvimento PHP ---"
-apt install -y libvirt-bin vagrant-libvirt
+
 echo "--- Atualizando lista de pacotes ---"
 sudo apt-get update
 
@@ -64,6 +64,6 @@ sudo apt install apt-transport-https wget
 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 sudo apt update
-sudo apt install code
+sudo apt install code --assume-yes --force-yes
 
 echo "[OK] --- Ambiente de desenvolvimento concluido ---"
