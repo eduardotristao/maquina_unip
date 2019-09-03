@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "~", "/vagrant", owner: "vagrant", group: "vagrant"
 #Defindo o virtualbox como provider da maquiona
   config.vm.provider "virtualbox" do |machine|
-    machine.gui = true
 #Definindo a quantidade de memoria da maquina virtual
     machine.memory = 1024
 #Definindo nome da maquina virtual
@@ -18,10 +17,5 @@ Vagrant.configure("2") do |config|
   end
 #Definindo que o script setup.sh ira rodar ao iniciar a maquina
   config.vm.provision :shell, path: "setup.sh"
-# Instala xfce e o virtualbox additions
-  config.vm.provision "shell", inline: "sudo apt-get update"
-  config.vm.provision "shell", inline: "sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11"
-# Permite qualquer um iniciar a GUI
-  config.vm.provision "shell", inline: "sudo sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config"
-  config.vm.provision "shell", inline: "sudo reboot"
+  machine.gui = true
 end
