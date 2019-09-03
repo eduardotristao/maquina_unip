@@ -11,11 +11,12 @@ Vagrant.configure("2") do |config|
 #Defindo o virtualbox como provider da maquiona
   config.vm.provider "virtualbox" do |machine|
 #Definindo a quantidade de memoria da maquina virtual
+    machine.gui = true  
     machine.memory = 1024
 #Definindo nome da maquina virtual
     machine.name = "maquina-apollo"
   end
 #Definindo que o script setup.sh ira rodar ao iniciar a maquina
   config.vm.provision :shell, path: "setup.sh"
-  machine.gui = true
+  
 end
