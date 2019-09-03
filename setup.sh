@@ -57,3 +57,7 @@ sudo mv composer.phar /usr/local/bin/composer
     sudo apt-get update
     sudo apt-get install nginx
     systemctl restart nginx.service
+# Instala xfce e o virtualbox additions
+sudo apt-get update
+sudo apt-get install -y ubuntu-gnome-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sudo reboot
