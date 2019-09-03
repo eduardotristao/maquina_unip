@@ -5,25 +5,6 @@ echo "---- Iniciando instalacao do ambiente de Desenvolvimento PHP ---"
 echo "--- Atualizando lista de pacotes ---"
 sudo apt-get update
 
-echo "--- Definindo Senha padrao para o MySQL e suas ferramentas ---"
-
-DEFAULTPASS="vagrant"
-sudo debconf-set-selections <<EOF
-mysql-server	mysql-server/root_password password $DEFAULTPASS
-mysql-server	mysql-server/root_password_again password $DEFAULTPASS
-dbconfig-common	dbconfig-common/mysql/app-pass password $DEFAULTPASS
-dbconfig-common	dbconfig-common/mysql/admin-pass password $DEFAULTPASS
-dbconfig-common	dbconfig-common/password-confirm password $DEFAULTPASS
-dbconfig-common	dbconfig-common/app-password-confirm password $DEFAULTPASS
-phpmyadmin		phpmyadmin/reconfigure-webserver multiselect apache2
-phpmyadmin		phpmyadmin/dbconfig-install boolean true
-phpmyadmin      phpmyadmin/app-password-confirm password $DEFAULTPASS 
-phpmyadmin      phpmyadmin/mysql/admin-pass     password $DEFAULTPASS
-phpmyadmin      phpmyadmin/password-confirm     password $DEFAULTPASS
-phpmyadmin      phpmyadmin/setup-password       password $DEFAULTPASS
-phpmyadmin      phpmyadmin/mysql/app-pass       password $DEFAULTPASS
-EOF
-
 echo "--- Instalando pacotes basicos ---"
 sudo apt-get install software-properties-common vim curl python-software-properties git-core --assume-yes --force-yes
 
@@ -66,10 +47,44 @@ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/v
 sudo apt update
 sudo apt install code --assume-yes --force-yes
 
-echo "--- Adicionando interface grafica ---"
-sudo apt-get update
-sudo apt-get install xorg gnome-core gnome-system-tools gnome-app-install -y
-sudo apt-get install xfce4 -y
-sudo startxfce4&
-
 echo "[OK] --- Ambiente de desenvolvimento concluido ---"
+
+
+#Instalação do Postgre11
+
+# Primeiro checa se o sistema possui o PostgreSQL instalado.
+  if sudo su -c 'command -v postgres' > /dev/null 2>&1; then
+    echo "PostgreSQL já instalado. [$CHECK_SYMBOL]"
+  else
+    echo "PostgreSQL não encontrado. [$ERROR_SYMBOL]"
+    echo 'Instalando PostgreSQL...'
+    echo ''
+    apt-get install wget ca-certificates
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+    apt-get update
+    apt-get install -y postgresql-11.2 -f;
+    echo ''
+    echo "PostgreSQL instalado com sucesso. [$CHECK_SYMBOL]"
+  fi
+
+#Instalação do PHP 7.1
+
+# Primeiro checa se o sistema possui o PHP instalado.
+  if sudo su -c 'command -v php' > /dev/null 2>&1; then
+    echo "PHP já instalado. [$CHECK_SYMBOL]"
+  else
+    echo "PHP não encontrado. [$ERROR_SYMBOL]"
+    echo 'Instalando PHP...'
+    echo ''
+    apt install software-properties-common
+    add-apt-repository ppa:ondrej/php
+    apt install php7.1 php7.1-common php7.1-opcache php7.1-mcrypt php7.1-cli php7.1-gd php7.1-curl
+    php -v
+    echo ''
+    echo "PostgreSQL instalado com sucesso. [$CHECK_SYMBOL]"
+  fi
+# Instalando Nginx
+    apt-get update
+    apt-get install nginx
+    /etc/init.d/nginx start

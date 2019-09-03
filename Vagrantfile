@@ -18,4 +18,9 @@ Vagrant.configure("2") do |config|
   end
 #Definindo que o script setup.sh ira rodar ao iniciar a maquina
   config.vm.provision :shell, path: "setup.sh"
+# Instala xfce e o virtualbox additions
+  config.vm.provision "shell", inline: "sudo apt-get update"
+  config.vm.provision "shell", inline: "sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11"
+# Permite qualquer um iniciar a GUI
+  config.vm.provision "shell", inline: "sudo sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config"
 end
